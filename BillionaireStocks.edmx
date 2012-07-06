@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BillionaireStocksModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="BillionaireStocksModelStoreContainer">
+          <EntitySet Name="Billionaire" EntityType="BillionaireStocksModel.Store.Billionaire" store:Type="Tables" />
+          <EntitySet Name="BillionaireStock" EntityType="BillionaireStocksModel.Store.BillionaireStock" store:Type="Tables" />
+          <EntitySet Name="BillionaireStockPrice" EntityType="BillionaireStocksModel.Store.BillionaireStockPrice" store:Type="Tables" />
+          <AssociationSet Name="FK_Billionaire" Association="BillionaireStocksModel.Store.FK_Billionaire">
+            <End Role="Billionaire" EntitySet="Billionaire" />
+            <End Role="BillionaireStock" EntitySet="BillionaireStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillionaireStockPrice_BillionaireStock" Association="BillionaireStocksModel.Store.FK_BillionaireStockPrice_BillionaireStock">
+            <End Role="BillionaireStock" EntitySet="BillionaireStock" />
+            <End Role="BillionaireStockPrice" EntitySet="BillionaireStockPrice" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Billionaire">
+          <Key>
+            <PropertyRef Name="BillionaireId" />
+          </Key>
+          <Property Name="BillionaireId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BillionaireFirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillionaireLastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillionaireCompany" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="BillionaireStock">
+          <Key>
+            <PropertyRef Name="BillionaireStockId" />
+          </Key>
+          <Property Name="BillionaireStockId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BillionaireStockTicker" Type="nvarchar" MaxLength="10" />
+          <Property Name="BillionaireStockCompany" Type="nvarchar" MaxLength="100" />
+          <Property Name="BillionaireStockBoughtDate" Type="datetime" />
+          <Property Name="BillionaireStockSoldDate" Type="datetime" />
+          <Property Name="BillionaireStockPricePaid" Type="money" />
+          <Property Name="BillionaireStockPriceSold" Type="money" />
+          <Property Name="BillionaireId" Type="int" />
+          <Property Name="DividendYield" Type="float" />
+        </EntityType>
+        <EntityType Name="BillionaireStockPrice">
+          <Key>
+            <PropertyRef Name="BillionaireStockPriceId" />
+          </Key>
+          <Property Name="BillionaireStockPriceId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BillionaireStockPriceValue" Type="money" />
+          <Property Name="BillionaireStockPriceDate" Type="datetime" />
+          <Property Name="BillionaireStockId" Type="int" />
+        </EntityType>
+        <Association Name="FK_Billionaire">
+          <End Role="Billionaire" Type="BillionaireStocksModel.Store.Billionaire" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BillionaireStock" Type="BillionaireStocksModel.Store.BillionaireStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Billionaire">
+              <PropertyRef Name="BillionaireId" />
+            </Principal>
+            <Dependent Role="BillionaireStock">
+              <PropertyRef Name="BillionaireId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillionaireStockPrice_BillionaireStock">
+          <End Role="BillionaireStock" Type="BillionaireStocksModel.Store.BillionaireStock" Multiplicity="0..1" />
+          <End Role="BillionaireStockPrice" Type="BillionaireStocksModel.Store.BillionaireStockPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillionaireStock">
+              <PropertyRef Name="BillionaireStockId" />
+            </Principal>
+            <Dependent Role="BillionaireStockPrice">
+              <PropertyRef Name="BillionaireStockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BillionaireStocksModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BillionaireStocksEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Billionaires" EntityType="BillionaireStocksModel.Billionaire" />
+          <EntitySet Name="BillionaireStocks" EntityType="BillionaireStocksModel.BillionaireStock" />
+          <EntitySet Name="BillionaireStockPrices" EntityType="BillionaireStocksModel.BillionaireStockPrice" />
+          <AssociationSet Name="FK_Billionaire" Association="BillionaireStocksModel.FK_Billionaire">
+            <End Role="Billionaire" EntitySet="Billionaires" />
+            <End Role="BillionaireStock" EntitySet="BillionaireStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillionaireStockPrice_BillionaireStock" Association="BillionaireStocksModel.FK_BillionaireStockPrice_BillionaireStock">
+            <End Role="BillionaireStock" EntitySet="BillionaireStocks" />
+            <End Role="BillionaireStockPrice" EntitySet="BillionaireStockPrices" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Billionaire">
+          <Key>
+            <PropertyRef Name="BillionaireId" />
+          </Key>
+          <Property Name="BillionaireId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="BillionaireFirstName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="BillionaireLastName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="BillionaireCompany" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="BillionaireStocks" Relationship="BillionaireStocksModel.FK_Billionaire" FromRole="Billionaire" ToRole="BillionaireStock" />
+        </EntityType>
+        <EntityType Name="BillionaireStock">
+          <Key>
+            <PropertyRef Name="BillionaireStockId" />
+          </Key>
+          <Property Name="BillionaireStockId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="BillionaireStockTicker" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="BillionaireStockCompany" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="BillionaireStockBoughtDate" Type="DateTime" Precision="3" />
+          <Property Name="BillionaireStockSoldDate" Type="DateTime" Precision="3" />
+          <Property Name="BillionaireStockPricePaid" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="BillionaireStockPriceSold" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="BillionaireId" Type="Int32" />
+          <NavigationProperty Name="Billionaire" Relationship="BillionaireStocksModel.FK_Billionaire" FromRole="BillionaireStock" ToRole="Billionaire" />
+          <NavigationProperty Name="BillionaireStockPrices" Relationship="BillionaireStocksModel.FK_BillionaireStockPrice_BillionaireStock" FromRole="BillionaireStock" ToRole="BillionaireStockPrice" />
+          <Property Type="Double" Name="DividendYield" />
+        </EntityType>
+        <EntityType Name="BillionaireStockPrice">
+          <Key>
+            <PropertyRef Name="BillionaireStockPriceId" />
+          </Key>
+          <Property Name="BillionaireStockPriceId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="BillionaireStockPriceValue" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="BillionaireStockPriceDate" Type="DateTime" Precision="3" />
+          <Property Name="BillionaireStockId" Type="Int32" />
+          <NavigationProperty Name="BillionaireStock" Relationship="BillionaireStocksModel.FK_BillionaireStockPrice_BillionaireStock" FromRole="BillionaireStockPrice" ToRole="BillionaireStock" />
+        </EntityType>
+        <Association Name="FK_Billionaire">
+          <End Role="Billionaire" Type="BillionaireStocksModel.Billionaire" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BillionaireStock" Type="BillionaireStocksModel.BillionaireStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Billionaire">
+              <PropertyRef Name="BillionaireId" />
+            </Principal>
+            <Dependent Role="BillionaireStock">
+              <PropertyRef Name="BillionaireId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillionaireStockPrice_BillionaireStock">
+          <End Role="BillionaireStock" Type="BillionaireStocksModel.BillionaireStock" Multiplicity="0..1" />
+          <End Role="BillionaireStockPrice" Type="BillionaireStocksModel.BillionaireStockPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillionaireStock">
+              <PropertyRef Name="BillionaireStockId" />
+            </Principal>
+            <Dependent Role="BillionaireStockPrice">
+              <PropertyRef Name="BillionaireStockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BillionaireStocksModelStoreContainer" CdmEntityContainer="BillionaireStocksEntities">
+          <EntitySetMapping Name="Billionaires">
+            <EntityTypeMapping TypeName="BillionaireStocksModel.Billionaire">
+              <MappingFragment StoreEntitySet="Billionaire">
+                <ScalarProperty Name="BillionaireId" ColumnName="BillionaireId" />
+                <ScalarProperty Name="BillionaireFirstName" ColumnName="BillionaireFirstName" />
+                <ScalarProperty Name="BillionaireLastName" ColumnName="BillionaireLastName" />
+                <ScalarProperty Name="BillionaireCompany" ColumnName="BillionaireCompany" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillionaireStocks">
+            <EntityTypeMapping TypeName="BillionaireStocksModel.BillionaireStock">
+              <MappingFragment StoreEntitySet="BillionaireStock">
+                <ScalarProperty Name="DividendYield" ColumnName="DividendYield" />
+                <ScalarProperty Name="BillionaireStockId" ColumnName="BillionaireStockId" />
+                <ScalarProperty Name="BillionaireStockTicker" ColumnName="BillionaireStockTicker" />
+                <ScalarProperty Name="BillionaireStockCompany" ColumnName="BillionaireStockCompany" />
+                <ScalarProperty Name="BillionaireStockBoughtDate" ColumnName="BillionaireStockBoughtDate" />
+                <ScalarProperty Name="BillionaireStockSoldDate" ColumnName="BillionaireStockSoldDate" />
+                <ScalarProperty Name="BillionaireStockPricePaid" ColumnName="BillionaireStockPricePaid" />
+                <ScalarProperty Name="BillionaireStockPriceSold" ColumnName="BillionaireStockPriceSold" />
+                <ScalarProperty Name="BillionaireId" ColumnName="BillionaireId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillionaireStockPrices">
+            <EntityTypeMapping TypeName="BillionaireStocksModel.BillionaireStockPrice">
+              <MappingFragment StoreEntitySet="BillionaireStockPrice">
+                <ScalarProperty Name="BillionaireStockPriceId" ColumnName="BillionaireStockPriceId" />
+                <ScalarProperty Name="BillionaireStockPriceValue" ColumnName="BillionaireStockPriceValue" />
+                <ScalarProperty Name="BillionaireStockPriceDate" ColumnName="BillionaireStockPriceDate" />
+                <ScalarProperty Name="BillionaireStockId" ColumnName="BillionaireStockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
